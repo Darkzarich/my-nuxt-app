@@ -15,17 +15,15 @@
 import EventCard from '~/components/EventCard.vue'
 export default {
   components: { EventCard },
-  asyncData({ $axios, error }) {
-    return $axios
-      .get('http://localhost:3000/events')
-      .then((res) => {
-        return {
-          events: res.data,
-        }
-      })
-      .catch(() => {
-        error({ statusCode: 503, message: 'Unable to fetch events' })
-      })
+  async asyncData({ $axios, error }) {
+    try {
+      const { data } = await $axios.get('http://localhost:3004/events')
+      return {
+        events: data,
+      }
+    } catch {
+      error({ statusCode: 503, message: 'Unable to fetch events' })
+    }
   },
   head() {
     return {
