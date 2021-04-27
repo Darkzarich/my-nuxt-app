@@ -12,6 +12,19 @@ export default {
   components: {
     NavBar,
   },
+  head() {
+    return {
+      titleTemplate: '%s - My Nuxt App',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Where you can find all the events taking place in your neighborhood',
+        },
+      ],
+    }
+  },
 }
 </script>
 
