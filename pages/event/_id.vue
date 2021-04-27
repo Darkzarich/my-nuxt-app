@@ -5,16 +5,12 @@
 </template>
 
 <script>
-import EventService from '~/services/EventService'
+import { mapState } from 'vuex'
 
 export default {
-  async asyncData({ error, params }) {
+  async fetch({ store, error, params }) {
     try {
-      const { data } = await EventService.getEvent(params.id)
-
-      return {
-        event: data,
-      }
+      await store.dispatch('events/fetchEvent', params.id)
     } catch {
       error({ statusCode: 503, message: 'Unable to fetch an event' })
     }
@@ -26,10 +22,15 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: `What you need to know about event #${this.event.title}`,
+          content: `What you need to know about event ${this.event.title}`,
         },
       ],
     }
+  },
+  computed: {
+    ...mapState({
+      event: (state) => state.events.event,
+    }),
   },
 }
 </script>
